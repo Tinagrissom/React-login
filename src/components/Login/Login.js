@@ -12,9 +12,20 @@ const Login = (props) => {
   const [formIsValid, setFormIsValid] = useState(false);
 
   useEffect(() => {
-    setFormIsValid(
-      enteredEmail.includes('@') && enteredPassword.trim().length > 6
-    );
+    console.log('Checking form');
+    // this function runs for every keystroke
+    const identifier = setTimeout(() => {
+      setFormIsValid(
+        enteredEmail.includes('@') && enteredPassword.trim().length > 6
+      );
+    }, 500);
+
+    return () => {
+      clearTimeout(identifier)
+      // clears the timer in the last execution 
+    };
+    // "cleanup function" - will run before every new effect function execution
+    // makes sure that setFormIsValid is only run once when user types rapid keystrokes
   }, [enteredEmail, enteredPassword])
   // the effect function will only run if the above [dependancies] are changed
 
